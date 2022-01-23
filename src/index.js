@@ -5,8 +5,10 @@ const path = require("path");
 
 // Create a new client instance
 const client = new Discord.Client({
-  intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES],
+  intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.GUILD_VOICE_STATES],
 });
+
+client.songs = []
 
 client.commands = new Discord.Collection();
 
