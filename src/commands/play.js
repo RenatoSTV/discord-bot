@@ -14,6 +14,11 @@ const execute = async (client, msg, args) => {
   const channel = msg.member.voice.channel;
   let search = args.join(" ");
 
+  if (!channel)
+    return msg.reply(
+      "Você precisa estar em um canal de áudio para requisitar uma música!"
+    );
+
   try {
     ytSearch(search, (err, result) => {
       if (err) {
@@ -22,7 +27,6 @@ const execute = async (client, msg, args) => {
         const song = result.videos[0];
         const songs = client.songs;
         songs.push(song);
-        console.log(songs)
         songs.length == 1 && playSong(client, msg, song);
       } else {
         return msg.reply("desculpe, não encontrei o que você desejava!");
@@ -31,33 +35,43 @@ const execute = async (client, msg, args) => {
   } catch (e) {
     console.error(e);
   }
+};
 
-  const playSong = async (client, msg, song) => {
-    const songs = client.songs;
-    const connection = joinVoiceChannel({
-      channelId: channel.id,
-      guildId: channel.guild.id,
-      adapterCreator: channel.guild.voiceAdapterCreator,
-    });
+const playSong = async (client, msg, song) => {
+  const songs = client.songs;
 
-    let stream = await ytdl(song.url, {
-      highWaterMark: 1 << 25,
-      filter: "audioonly",
-    });
+  if (!song) return;
 
-    const player = createAudioPlayer({
-      behaviors: {
-        noSubscriber: NoSubscriberBehavior.Pause,
-      },
-    });
-    const resource = createAudioResource(stream, {
-      inputType: StreamType.Opus,
-    });
+  const connection = joinVoiceChannel({
+    channelId: msg.member.voice.channel.id,
+    guildId: msg.member.voice.channel.guild.id,
+    adapterCreator: msg.member.voice.channel.guild.voiceAdapterCreator,
+  });
 
-    player.play(resource);
-    connection.subscribe(player);
-    client.player = player;
-  };
+  let stream = await ytdl(song.url, {
+    highWaterMark: 1 << 25,
+    filter: "audioonly",
+  });
+
+  const player = createAudioPlayer({
+    behaviors: {
+      noSubscriber: NoSubscriberBehavior.Pause,
+    },
+  });
+  const resource = createAudioResource(stream, {
+    inputType: StreamType.Opus,
+  });
+
+  player.play(resource);
+  connection.subscribe(player);
+
+  player.on(AudioPlayerStatus.Idle, () => {
+    songs.shift();
+
+    playSong(client, msg, songs[0]);
+  });
+
+  client.player = player;
 };
 module.exports = {
   name: "play",
