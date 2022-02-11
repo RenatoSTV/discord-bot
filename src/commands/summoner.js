@@ -14,7 +14,7 @@ const execute = async (client, msg, args) => {
     );
     let summoner = response.data;
 
-    const profileIconURL = `http://ddragon.leagueoflegends.com/cdn/${versions[0]}/img/profileicon/${summoner.profileIconId}.png`;
+    const profileIconURL = `http://ddragon.leagueoflegends.com/cdn/${versions.data[0]}/img/profileicon/${summoner.profileIconId}.png`;
 
     let championsMastery = await axios.get(
       `${lolURL}/lol/champion-mastery/v4/champion-masteries/by-summoner/${summoner.id}?api_key=${lolAPItoken}`
@@ -29,7 +29,7 @@ const execute = async (client, msg, args) => {
     );
 
     let list = await axios.get(
-      `http://ddragon.leagueoflegends.com/cdn/${versions[0]}/data/pt_BR/champion.json`
+      `http://ddragon.leagueoflegends.com/cdn/${versions.data[0]}/data/pt_BR/champion.json`
     );
 
     let championList = list.data.data;
@@ -72,12 +72,15 @@ const execute = async (client, msg, args) => {
 
     const msgEmbeded = {
       title: summoner.name,
+      url: `https://br.op.gg/summoners/br/${summoner.name.split(" ").join("%20")}`,
       thumbnail: {
         url: profileIconURL,
       },
       description: `Lvl: ${summoner.summonerLevel}`,
       fields: elosFilds,
     };
+
+    console.log(summoner.name.split(" ").join("+"))
 
     const championEmbed = {
       title: champion.name,
