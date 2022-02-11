@@ -9,7 +9,6 @@ const client = new Discord.Client({
 });
 
 client.songs = []
-
 client.commands = new Discord.Collection();
 
 const commandFiles = fs
