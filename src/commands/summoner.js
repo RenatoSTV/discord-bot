@@ -102,6 +102,6 @@ const execute = async (client, msg, args) => {
 
 module.exports = {
   name: "summoner",
-  help: "Informações sobre m invocador do lol.",
+  help: "Informações sobre um invocador do lol.",
   execute,
 };
