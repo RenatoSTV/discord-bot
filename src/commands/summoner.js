@@ -80,8 +80,6 @@ const execute = async (client, msg, args) => {
       fields: elosFilds,
     };
 
-    console.log(summoner.name.split(" ").join("+"))
-
     const championEmbed = {
       title: champion.name,
       description: `Lvl: ${championMastery.championLevel}\n ${Number(
