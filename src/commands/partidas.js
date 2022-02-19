@@ -1,15 +1,13 @@
 const axios = require("axios");
-const { version } = require("moment");
 const moment = require("moment");
 moment.locale("pt-br");
-const { lolAPItoken, lolURL } = require("../../config.json");
 
 const execute = async (client, msg, args) => {
   const name = encodeURI(args.join(" "));
 
   try {
     const response = await axios.get(
-      `${lolURL}/lol/summoner/v4/summoners/by-name/${name}?api_key=${lolAPItoken}`
+      `${process.env.lolURL}/lol/summoner/v4/summoners/by-name/${name}?api_key=${process.env.lolAPItoken}`
     );
     const summoner = response.data;
 
@@ -26,13 +24,13 @@ const searchMatchs = async (summoner, msg, args) => {
     );
 
     const matchs = await axios.get(
-      `https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${summoner.puuid}/ids?count=5&api_key=${lolAPItoken}`
+      `https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${summoner.puuid}/ids?count=5&api_key=${process.env.lolAPItoken}`
     );
 
     const games = await Promise.all(
       matchs.data.map(async (id) => {
         const info = await axios.get(
-          `https://americas.api.riotgames.com/lol/match/v5/matches/${id}?api_key=${lolAPItoken}`
+          `https://americas.api.riotgames.com/lol/match/v5/matches/${id}?api_key=${process.env.lolAPItoken}`
         );
 
         return info.data;

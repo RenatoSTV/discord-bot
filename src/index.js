@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const { token, prefix } = require("../config.json");
 const fs = require("fs");
 const path = require("path");
 
@@ -31,8 +30,8 @@ client.once("disconnect", () => {
 });
 
 client.on("messageCreate", (msg) => {
-  if (!msg.content.startsWith(prefix) || msg.author.bot) return;
-  const args = msg.content.slice(prefix.length).split(" ");
+  if (!msg.content.startsWith(process.env.prefix) || msg.author.bot) return;
+  const args = msg.content.slice(process.env.prefix.length).split(" ");
   const command = args.shift();
 
   try {
@@ -43,4 +42,4 @@ client.on("messageCreate", (msg) => {
 });
 
 // Login to Discord with your client's token
-client.login(token);
+client.login(process.env.token);

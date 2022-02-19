@@ -1,6 +1,3 @@
-const axios = require("axios");
-const { lolAPItoken, lolURL } = require("../../config.json");
-
 const execute = async (client, msg, args) => {
   const name = encodeURI(args.join(" "));
 

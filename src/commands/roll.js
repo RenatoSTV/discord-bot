@@ -1,6 +1,7 @@
 function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
+
 const execute = (client, msg, args) => {
   let diceNumber = Number(args.join(" "));
 
