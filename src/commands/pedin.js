@@ -1,5 +1,5 @@
 const execute = (client, msg, args) => {
-  msg.channel.send(`Boa <@166026951608369152> , SEU ARROMBADO!`);
+  msg.channel.send(`Boa <@166026951608369152>, ARROMBADO!`);
 };
 
 module.exports = {
