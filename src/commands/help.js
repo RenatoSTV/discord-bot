@@ -1,8 +1,12 @@
+const dotenv = require('dotenv')
+
+dotenv.config()
+
 const execute = (client, msg, args) => {
   let helps = "==== AJUDA ====\n";
   client.commands.forEach((command) => {
     if(command.help) {
-      helps += `**${process.env.prefix}${command.name}**: ${command.help}\n`
+      helps += `**${process.env.PREFIX}${command.name}**: ${command.help}\n`
     }
   });
 

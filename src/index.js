@@ -1,8 +1,10 @@
 const Discord = require("discord.js");
 const fs = require("fs");
 const path = require("path");
+const dotenv = require('dotenv')
 
-// Create a new client instance
+dotenv.config()
+
 const client = new Discord.Client({
   intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.GUILD_VOICE_STATES],
 });
@@ -22,16 +24,10 @@ for (let filename of commandFiles) {
 client.once("ready", () => {
   console.log("Ready!");
 });
-client.once("reconnecting", () => {
-  console.log("Reconnecting!");
-});
-client.once("disconnect", () => {
-  console.log("Disconnect!");
-});
 
 client.on("messageCreate", (msg) => {
-  if (!msg.content.startsWith(process.env.prefix) || msg.author.bot) return;
-  const args = msg.content.slice(process.env.prefix.length).split(" ");
+  if (!msg.content.startsWith(process.env.PREFIX) || msg.author.bot) return;
+  const args = msg.content.slice(process.env.PREFIX.length).split(" ");
   const command = args.shift();
 
   try {
@@ -42,4 +38,4 @@ client.on("messageCreate", (msg) => {
 });
 
 // Login to Discord with your client's token
-client.login(process.env.token);
+client.login(process.env.TOKEN);

@@ -1,4 +1,7 @@
 const axios = require("axios");
+const dotenv = require('dotenv')
+
+dotenv.config()
 
 const execute = async (client, msg, args) => {
   const name = encodeURI(args.join(" "));
@@ -9,22 +12,22 @@ const execute = async (client, msg, args) => {
     );
 
     const response = await axios.get(
-      `${process.env.lolURL}/lol/summoner/v4/summoners/by-name/${name}?api_key=${process.env.lolAPItoken}`
+      `${process.env.LOL_URL}/lol/summoner/v4/summoners/by-name/${name}?api_key=${process.env.LOL_API_TOKEN}`
     );
     let summoner = response.data;
 
     const profileIconURL = `http://ddragon.leagueoflegends.com/cdn/${versions.data[0]}/img/profileicon/${summoner.profileIconId}.png`;
 
     let championsMastery = await axios.get(
-      `${process.env.lolURL}/lol/champion-mastery/v4/champion-masteries/by-summoner/${summoner.id}?api_key=${process.env.lolAPItoken}`
+      `${process.env.LOL_URL}/lol/champion-mastery/v4/champion-masteries/by-summoner/${summoner.id}?api_key=${process.env.LOL_API_TOKEN}`
     );
 
     let championMastery = championsMastery.data[0];
 
     const elo = await axios.get(
-      `${process.env.lolURL}/lol/league/v4/entries/by-summoner/${encodeURI(
+      `${process.env.LOL_URL}/lol/league/v4/entries/by-summoner/${encodeURI(
         summoner.id
-      )}?api_key=${process.env.lolAPItoken}`
+      )}?api_key=${process.env.LOL_API_TOKEN}`
     );
 
     let list = await axios.get(
