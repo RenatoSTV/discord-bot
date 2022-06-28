@@ -70,7 +70,7 @@ const searchMatchs = async (summoner, msg, args) => {
         thumbnail: {
           url: championImg,
         },
-        description: `Champion: ${partida.championName} | Role: ${partida.role} | KDA: ${partida.kills}/${partida.assists}/${partida.deaths}`,
+        description: `Champion: ${partida.championName} | Role: ${partida.role} | KDA: ${partida.kills}/${partida.deaths}/${partida.assists}`,
       };
     });
 
